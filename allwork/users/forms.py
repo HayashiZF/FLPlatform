@@ -4,9 +4,10 @@ from django.db import transaction
 
 from .models import User
 
+
 class UserCreationForm(forms.ModelForm):
     """
-    创建用户的表单。
+    Create user form
     """
     username = forms.CharField(max_length=30, required=True, help_text='Required.')
     first_name = forms.CharField(max_length=30, required=True, help_text='Optional.')
@@ -14,16 +15,15 @@ class UserCreationForm(forms.ModelForm):
     email = forms.EmailField(max_length=254, required=True, help_text='Required. Inform a valid email address.')
 
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput) # 确认密码
-
+    password2 = forms.CharField(label='Password Confirmation', widget=forms.PasswordInput)  # confirm password
 
     class Meta:
-         # 注册表单字段
+
         model = User
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2',)
 
     def clean_password(self):
-        # 检查两次密码是否相同
+        # confirm password
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
@@ -31,7 +31,7 @@ class UserCreationForm(forms.ModelForm):
         return password2
 
     def save(self, commit=True):
-        # 以哈希格式存储密码
+        # save as Hash
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
@@ -66,7 +66,6 @@ class FreelancerSignUpForm(UserCreationForm):
         user.is_freelancer = True
         user.save()
         return user
-
 
 
 class OwnerSignUpForm(UserCreationForm):
