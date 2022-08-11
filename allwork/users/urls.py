@@ -8,7 +8,7 @@ from .views import (
     FreelancerSignUpView,
     ListFreelancersView, SignUpView,
     OwnerSignUpView,
-    # UserJobProfile,
+    UserJobProfile,
 )
 
 app_name = 'users'
@@ -27,7 +27,7 @@ urlpatterns = [
     path('user/', include(([
         path('<str:pk>/edit', UpdateProfileView.as_view(), name="update_profile"),
         path('<str:username>/', UserDetailView.as_view(), name='user_profile'),
-        # path('<str:username>/jobs/', UserJobProfile.as_view(), name='job_profile'),
+        path('<str:username>/jobs/', UserJobProfile.as_view(), name='job_profile'),
     ]))),
 
 ]
