@@ -79,7 +79,7 @@ class JobApplyView(CreateView):
         proposal.freelancer = self.request.user
 
         proposal.save()
-        return redirect('user:job_profile', self.request.user.username)
+        return redirect('users:job_profile', self.request.user.username)
 
 
 class ProposalAcceptView(RedirectView):
