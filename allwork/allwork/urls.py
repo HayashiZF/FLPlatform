@@ -23,5 +23,5 @@ urlpatterns = [
     path('', home, name='home'),
     path('', include('users.urls')),
     path('', include('jobs.urls')),
+    path('', include('direct_messages.urls')),
 ]
-
