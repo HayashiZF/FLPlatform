@@ -42,7 +42,7 @@
       >Apply</a
     ><br />
     {% endif %} {% endif %} {% endif %} {% else %}
-    <a type="button" href="#" class="btn btn-warning">Close project</a><br />
+    <a type="button" href="{% url 'jobs:close_job' job.pk %}" class="btn btn-warning">Close project</a><br />
     {% endif %}
 
     <span class="badge badge-secondary">{{ job.status }}</span>

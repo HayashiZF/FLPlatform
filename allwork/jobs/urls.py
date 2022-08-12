@@ -4,7 +4,7 @@ from django.conf import settings
 
 from .views import (
     JobApplyView, JobCreateView, ProposalAcceptView,
-    JobDetailView, JobListView,
+    JobDetailView, JobListView, JobCloseView,
 )
 
 app_name = 'jobs'
@@ -16,6 +16,7 @@ urlpatterns = [
         path('<int:pk>', JobDetailView.as_view(), name='job_detail'),
         path('<int:pk>/apply', JobApplyView.as_view(), name='job_apply'),
         path('<int:pk>/accept/<str:username>', ProposalAcceptView.as_view(), name='proposal_accept'),
+        path('<int:pk>/apply/close', JobCloseView.as_view(), name='close_job'),
     ]))),
 ]
 
