@@ -6,8 +6,9 @@ from django.conf import settings
 from .views import (
     UserDetailView, UpdateProfileView,
     FreelancerSignUpView,
-    ListFreelancersView,SignUpView,
-    # UserJobProfile,
+    ListFreelancersView, SignUpView,
+    OwnerSignUpView,
+    UserJobProfile,
 )
 
 app_name = 'users'
@@ -18,6 +19,7 @@ urlpatterns = [
         path('logout/', auth_views.LogoutView.as_view(), name='logout'),
         path('signup/', SignUpView.as_view(), name='signup'),
         path('signup/freelancer/', FreelancerSignUpView.as_view(), name='freelancer_signup'),
+        path('signup/project-owner/', OwnerSignUpView.as_view(), name='owner_signup'),
     ]))),
     path('freelancers/', include(([
         path('', ListFreelancersView.as_view(), name='list_freelancer'),
@@ -25,7 +27,7 @@ urlpatterns = [
     path('user/', include(([
         path('<str:pk>/edit', UpdateProfileView.as_view(), name="update_profile"),
         path('<str:username>/', UserDetailView.as_view(), name='user_profile'),
-        # path('<str:username>/jobs/', UserJobProfile.as_view(), name='job_profile'),
+        path('<str:username>/jobs/', UserJobProfile.as_view(), name='job_profile'),
     ]))),
 
 ]

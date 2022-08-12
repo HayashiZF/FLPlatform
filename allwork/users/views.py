@@ -10,8 +10,10 @@ from django.views.generic import (
 from .models import User
 from .forms import FreelancerSignUpForm, OwnerSignUpForm
 
+
 class SignUpView(TemplateView):
     template_name = 'users/signup.html'
+
 
 class UserDetailView(TemplateView):
     model = User
@@ -26,12 +28,13 @@ class UserDetailView(TemplateView):
         context['profile'] = User.objects.get(username=username)
         return context
 
+
 class UpdateProfileView(UpdateView):
     """
     Update the profile.
     """
     model = User
-    fields = ['profile_photo', 'first_name', 'last_name', 'profile', 'skills'] # Keep listing whatever fields
+    fields = ['profile_photo', 'first_name', 'last_name', 'profile', 'skills']  # Keep listing whatever fields
     template_name = 'users/user_profile_update.html'
 
     def form_valid(self, form):
@@ -66,6 +69,7 @@ class ListFreelancersView(ListView):
         """
         return User.objects.filter(is_freelancer=True)
 
+
 class FreelancerSignUpView(CreateView):
     """
     Register a freelancer.
@@ -76,7 +80,7 @@ class FreelancerSignUpView(CreateView):
 
     def get_context_data(self, **kwargs):
         """
-        Updates context value 'user_type' in curernt context.
+        Updates context value 'user_type' in current context.
         """
         kwargs['user_type'] = 'freelancer'
         return super().get_context_data(**kwargs)
@@ -85,3 +89,46 @@ class FreelancerSignUpView(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
+
+
+class OwnerSignUpView(CreateView):
+    """
+    Register as an owner
+    """
+    model = User
+    form_class = OwnerSignUpForm
+    template_name = 'users/signup_form.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        Updates context value 'user_type' in current context.
+        :param kwargs:
+        :return:
+        """
+        kwargs['user_type'] = 'project owner'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class UserJobProfile(TemplateView):
+    """
+    Show a user's jobs.
+    """
+
+    model = User
+    template_name = 'users/user_job_profile.html'
+
+    def get_context_data(self, **kwargs):
+        """
+        prepares user context value based on username request form.url
+        :param kwargs:
+        :return:
+        """
+        context = super(UserJobProfile, self).get_context_data(**kwargs)
+        username = self.kwargs.get('username')
+        context['user'] = User.objects.get(username=username)
+        return context
