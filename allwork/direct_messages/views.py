@@ -51,7 +51,8 @@ class MessageDetailView(CreateView):
         kwargs['active_conversation'] = message
         current_conversations = MessagingService().get_conversations(user=self.request.user)
         kwargs['conversations'] = current_conversations
-
+        if not message:
+            return super().get_context_data(**kwargs)
         if user == message.sender:
             active_recipient = message.recipient
         else:
@@ -94,6 +95,7 @@ class MessageView(RedirectView):
          Prepares redirect url when the project owner accept the proposal.
         """
         user = self.request.user
+        # recipient = kwargs.get('recipient')
         chatroom = ChatRoom.objects.filter(Q(sender=user) | Q(recipient=user)).first()
         if chatroom:
             return super().get_redirect_url(*args, pk=chatroom.pk)

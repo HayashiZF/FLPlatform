@@ -28,12 +28,12 @@
                                    height: 100%;
                                    width: 100%;
                                    text-decoration: none;"
-                                   href="{% url 'direct_messages:list_message' %}" class="fill-div">
+                                   href="{% url 'direct_messages:user_message' chat.pk %}" class="fill-div">
                                     <div class="chat_people">
                                         <div class="chat_img">
                                             <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
                                         </div>
-                                        <div class="chat_ib">
+                                        <div class="chat_id">
                                             <h5>{{ chat.recipient }}</h5>
                                         </div>
                                     </div>
@@ -60,7 +60,7 @@
                                         <img src="https://ptetutorials.com/images/user-profile.png" alt="{{ conversation.recipient.username }}">
                                     </div>
                                     <div class="received_msg">
-                                        <div class="received_withd_msg">
+                                        <div class="received_width_msg">
                                             <p>{{ conversation.content | safe }}</p>
                                             <span class="time_date">{{ conversation.sent_at | naturaltime }}</span>
                                         </div>
